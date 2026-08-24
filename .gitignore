@@ -1,0 +1,22 @@
+node_modules/
+dist/
+build/
+.DS_Store
+
+# ambiente
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# credenciais de integracao com o Figma (NUNCA commitar)
+.figma.local
+
+# banco de dados SQLite
+*.db
+*.db-journal
+*.sqlite
+
+# logs
+*.log
+npm-debug.log*

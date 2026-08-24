@@ -1,0 +1,10 @@
+# Normaliza as quebras de linha: LF no repositorio, nativo no working tree
+* text=auto eol=lf
+
+# Binarios
+*.png binary
+*.jpg binary
+*.ico binary
+
+# Arquivos gerados - colapsa no diff do GitHub
+package-lock.json linguist-generated=true -diff

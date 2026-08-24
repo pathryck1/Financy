@@ -1,0 +1,72 @@
+// Financy - schema do banco de dados
+// Provider SQLite: nao suporta enums nativos, por isso `Transaction.type`
+// e uma String validada na camada GraphQL pelo enum TransactionType.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categories   Category[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  // nome do icone do Lucide, ex: "utensils"
+  icon        String   @default("tag")
+  // cor do style guide, ex: "#2563EB"
+  color       String   @default("#16A34A")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactions Transaction[]
+
+  // cada usuario nao pode repetir o nome de uma categoria
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("categories")
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  amount      Float
+  type        String // INCOME | EXPENSE
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // ao deletar uma categoria as transacoes sao preservadas, ficando sem categoria
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([categoryId])
+  @@index([userId, date])
+  @@map("transactions")
+}

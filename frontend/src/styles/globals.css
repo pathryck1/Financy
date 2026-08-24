@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+
+/*
+ * Tokens extraidos da aba Style Guide do Figma.
+ * A escala de cinza do projeto substitui a padrao do Tailwind de proposito.
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* wordmark do logo: letras quadradas, como no Figma */
+  --font-display: 'Chakra Petch', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand */
+  --color-brand-dark: #124b2b;
+  --color-brand: #1f6f43;
+
+  /* Grayscale */
+  --color-gray-100: #f8f9fa;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #111827;
+
+  /* Feedback */
+  --color-danger: #ef4444;
+  --color-success: #19ad70;
+
+  /* Paleta das categorias */
+  --color-cat-blue-dark: #1d4ed8;
+  --color-cat-blue: #2563eb;
+  --color-cat-blue-light: #dbeafe;
+  --color-cat-purple-dark: #7e22ce;
+  --color-cat-purple: #9333ea;
+  --color-cat-purple-light: #f3e8ff;
+  --color-cat-pink-dark: #be185d;
+  --color-cat-pink: #db2777;
+  --color-cat-pink-light: #fce7f3;
+  --color-cat-red-dark: #b91c1c;
+  --color-cat-red: #dc2626;
+  --color-cat-red-light: #fee2e2;
+  --color-cat-orange-dark: #c2410c;
+  --color-cat-orange: #ea580c;
+  --color-cat-orange-light: #ffedd5;
+  --color-cat-yellow-dark: #a16207;
+  --color-cat-yellow: #ca8a04;
+  --color-cat-yellow-light: #f7f3ca;
+  --color-cat-green-dark: #15803d;
+  --color-cat-green: #16a34a;
+  --color-cat-green-light: #e0fae9;
+
+  --radius-card: 0.75rem;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-gray-200);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+    font-family: var(--font-sans);
+  }
+
+  /* o anel de foco segue o verde da marca em todo o app */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Card branco padrao usado no dashboard, listas e formularios */
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 2px 0 rgb(16 24 40 / 0.04);
+  }
+}
+
+/* Some com os spinners nativos do input[type=number] */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
