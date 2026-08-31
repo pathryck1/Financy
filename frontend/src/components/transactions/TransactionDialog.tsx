@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useMutation } from '@apollo/client/react';
 import { CircleArrowDown, CircleArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { DateInput } from '@/components/ui/DateInput';
 import { Dialog } from '@/components/ui/Dialog';
 import { Input } from '@/components/ui/Field';
 import { Select } from '@/components/ui/Select';
@@ -25,7 +26,7 @@ import { useState } from 'react';
 const schema = z.object({
   type: z.enum(['INCOME', 'EXPENSE']),
   title: z.string().trim().min(1, 'Informe a descrição.').max(60, 'No máximo 60 caracteres.'),
-  date: z.string().min(1, 'Selecione a data.'),
+  date: z.string().min(1, 'Informe uma data válida no formato dd/mm/aaaa.'),
   amount: z
     .string()
     .min(1, 'Informe o valor.')
@@ -163,7 +164,20 @@ export function TransactionDialog({ open, onOpenChange, categories, transaction 
         />
 
         <div className="grid grid-cols-2 gap-3">
-          <Input label="Data" type="date" error={errors.date?.message} {...register('date')} />
+          <Controller
+            control={control}
+            name="date"
+            render={({ field }) => (
+              <DateInput
+                label="Data"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                name={field.name}
+                error={errors.date?.message}
+              />
+            )}
+          />
           <Input
             label="Valor"
             inputMode="decimal"

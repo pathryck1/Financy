@@ -29,6 +29,35 @@ export function toDateInputValue(iso: string): string {
   return new Date(date.getTime() - offset).toISOString().slice(0, 10);
 }
 
+/** "2025-11-30" -> "30/11/2025", o formato que o campo de data mostra */
+export function toDisplayDate(value: string): string {
+  const [year, month, day] = value.split('-');
+  if (!year || !month || !day) return '';
+  return `${day}/${month}/${year}`;
+}
+
+/** Insere as barras enquanto o usuario digita: "3011" -> "30/11" */
+export function maskDisplayDate(raw: string): string {
+  const digits = raw.replace(/\D/g, '').slice(0, 8);
+  return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)].filter(Boolean).join('/');
+}
+
+/** "30/11/2025" -> "2025-11-30"; devolve "" se a data nao existe no calendario */
+export function fromDisplayDate(text: string): string {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(text.trim());
+  if (!match) return '';
+
+  const [, day, month, year] = match;
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+  // o Date normaliza 31/02 para 03/03; comparar de volta descarta datas inexistentes
+  const isReal =
+    date.getFullYear() === Number(year) &&
+    date.getMonth() === Number(month) - 1 &&
+    date.getDate() === Number(day);
+
+  return isReal ? `${year}-${month}-${day}` : '';
+}
+
 /** "2025-11-30" -> ISO no meio-dia local, evitando virar o dia por fuso */
 export function fromDateInputValue(value: string): string {
   const [year, month, day] = value.split('-').map(Number);
