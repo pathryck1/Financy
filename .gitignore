@@ -3,6 +3,9 @@ dist/
 build/
 .DS_Store
 
+# cache de build incremental do TypeScript
+*.tsbuildinfo
+
 # ambiente
 .env
 .env.local
